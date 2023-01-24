@@ -1,0 +1,49 @@
+﻿<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="Localization">
+<xs:annotation>
+<xs:documentation>Localization file</xs:documentation>
+</xs:annotation>
+<xs:complexType>
+<xs:sequence minOccurs="0" maxOccurs="unbounded">
+<xs:element name="String" type="localizationstring">
+<xs:annotation>
+<xs:documentation>Localization item</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="localizationstring">
+<xs:attribute name="locid" use="required">
+<xs:annotation>
+<xs:documentation>Localization id</xs:documentation>
+</xs:annotation>
+<xs:simpleType>
+<xs:restriction base="xs:string">
+<xs:maxLength value="256"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:attribute>
+<xs:attribute name="en" use="optional">
+<xs:annotation>
+<xs:documentation>english</xs:documentation>
+</xs:annotation>
+<xs:simpleType>
+<xs:restriction base="xs:string">
+<xs:maxLength value="1024"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:attribute>
+<xs:attribute name="cs" use="optional">
+<xs:annotation>
+<xs:documentation>czech</xs:documentation>
+</xs:annotation>
+<xs:simpleType>
+<xs:restriction base="xs:string">
+<xs:maxLength value="1024"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:attribute>
+
+</xs:complexType>
+</xs:schema>
