@@ -6,11 +6,15 @@ using System.Xml.Schema;
 using CsvHelper;
 using System;
 using System.Xml;
+using System.Diagnostics;
 
 var sourceTestXML = @"/Users/adamszedely/Projects/TestFiles/xmlSample2.xml";
 var outputCSV = @"/Users/adamszedely/Projects/TestFiles/CSVSample.csv";
 
 XDocument xmlData = XDocument.Load(sourceTestXML);
+
+Stopwatch sw = new Stopwatch();
+sw.Start();             //ToDo - read line and write to CSV straight away so I don't have to do it twice?
 
 string csv =
     (from el in xmlData.Element("Localization").Elements("String")
@@ -27,9 +31,10 @@ string csv =
         sb => sb.ToString()
     );
 
+Console.WriteLine($"XML parsed in {sw.ElapsedMilliseconds} miliseconds");
+
 File.WriteAllText(outputCSV, csv.ToString());
 
-Console.Write(csv);
+Console.WriteLine($"Written to CSV in {sw.ElapsedMilliseconds} miliseconds");
+
 Console.WriteLine("done");
-
-
