@@ -7,34 +7,46 @@ using CsvHelper;
 using System;
 using System.Xml;
 using System.Diagnostics;
+using SeyforHomework.Services;
 
 var sourceTestXML = @"/Users/adamszedely/Projects/TestFiles/xmlSample2.xml";
 var outputCSV = @"/Users/adamszedely/Projects/TestFiles/CSVSample.csv";
 
-XDocument xmlData = XDocument.Load(sourceTestXML);
-
 Stopwatch sw = new Stopwatch();
-sw.Start();             //ToDo - read line and write to CSV straight away so I don't have to do it twice?
 
-string csv =
-    (from el in xmlData.Element("Localization").Elements("String")
-     select
-         String.Format("{0},{1},{2}" + Environment.NewLine,
-             (string)el.Attribute("locid"),
-             (string)el.Attribute("en"),
-             (string)el.Attribute("cs")
-         )
-    )
-    .Aggregate(
-        new StringBuilder(),
-        (sb, s) => sb.Append(s),
-        sb => sb.ToString()
-    );
+ValidationHelper validationHelper = new ValidationHelper();
+XMLReaderHelper xmlReaderHelper = new XMLReaderHelper();
 
-Console.WriteLine($"XML parsed in {sw.ElapsedMilliseconds} miliseconds");
+sw.Start();
 
-File.WriteAllText(outputCSV, csv.ToString());
+try
+{
+    if (validationHelper.FileExists(sourceTestXML))
+    {
+        try
+        {
+            validationHelper.ValidateXML(sourceTestXML);
 
-Console.WriteLine($"Written to CSV in {sw.ElapsedMilliseconds} miliseconds");
+            string header = String.Format("{0}, {1}, {2}" + Environment.NewLine,
+            "locid",
+            "en",
+            "cs");
 
-Console.WriteLine("done");
+            var xmlData = xmlReaderHelper.ReadXml(sourceTestXML);
+
+            Console.WriteLine($"XML parsed in {sw.ElapsedMilliseconds} miliseconds");
+
+            File.WriteAllText(outputCSV, xmlData);
+
+            Console.WriteLine($"Written to CSV in {sw.ElapsedMilliseconds} miliseconds");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("XML asi není valid " + ex.Message);
+        }
+    }
+}
+catch (FileNotFoundException ex)
+{
+    Console.WriteLine("Soubor neexistuje " + ex.Message);
+}

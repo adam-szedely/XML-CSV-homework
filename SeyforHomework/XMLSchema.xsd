@@ -1,6 +1,4 @@
-﻿<!--VS for Mac nepodporuje XSD-->
-
-<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+﻿<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 <xs:element name="Localization">
 <xs:annotation>
 <xs:documentation>Localization file</xs:documentation>
@@ -46,5 +44,6 @@
 </xs:restriction>
 </xs:simpleType>
 </xs:attribute>
+
 </xs:complexType>
 </xs:schema>
