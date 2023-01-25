@@ -6,10 +6,12 @@ namespace SeyforHomeworkUnitTests;
 public class UnitTest : IClassFixture<ValidationHelper>
 {
     private ValidationHelper validationHelper;
+    private XMLReaderHelper xmlReaderHelper;
 
-    public UnitTest(ValidationHelper validationHelper)
+    public UnitTest(ValidationHelper validationHelper, XMLReaderHelper xmlReaderHelper)
     {
         this.validationHelper = validationHelper;
+        this.xmlReaderHelper = xmlReaderHelper;
     }
 
     [Fact]
@@ -52,8 +54,8 @@ public class UnitTest : IClassFixture<ValidationHelper>
     }
 
     [Fact]
-    public void TesIt1()
+    public void XMLReaderHelper_ValidInput_ShouldPass()
     {
-
+        var testFile = Directory.GetCurrentDirectory();
     }
 }
