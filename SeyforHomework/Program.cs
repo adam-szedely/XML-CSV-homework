@@ -31,8 +31,8 @@ Console.WriteLine("Where would you like to save the file?");
 
 while (!validationHelper.CheckPath(arg2))
 {
-    arg1 = Console.ReadLine();
-    if (!validationHelper.FileExists(arg2))
+    arg2 = Console.ReadLine();
+    if (!validationHelper.CheckPath(arg2))
     {
         Console.WriteLine("File path does not exist");
     }
@@ -40,7 +40,7 @@ while (!validationHelper.CheckPath(arg2))
 
 try
 {
-    validationHelper.ValidateXML(arg1);
+    //validationHelper.ValidateXML(arg1);
 
     string header = String.Format("{0}, {1}, {2}" + Environment.NewLine,
     "locid",
@@ -49,7 +49,7 @@ try
 
     var xmlData = xmlReaderHelper.ReadXml(arg1);
 
-    File.WriteAllText(outputCSV, header + xmlData);
+    File.WriteAllText(arg2 + "xmltocsv.csv", header + xmlData);
 }
 catch (Exception ex)
 {
