@@ -17,8 +17,6 @@ Stopwatch sw = new Stopwatch();
 ValidationHelper validationHelper = new ValidationHelper();
 XMLReaderHelper xmlReaderHelper = new XMLReaderHelper();
 
-sw.Start();
-
 try
 {
     if (validationHelper.FileExists(sourceTestXML))
@@ -34,11 +32,7 @@ try
 
             var xmlData = xmlReaderHelper.ReadXml(sourceTestXML);
 
-            Console.WriteLine($"XML parsed in {sw.ElapsedMilliseconds} miliseconds");
-
-            File.WriteAllText(outputCSV, xmlData);
-
-            Console.WriteLine($"Written to CSV in {sw.ElapsedMilliseconds} miliseconds");
+            File.WriteAllText(outputCSV, header + xmlData);
         }
         catch (Exception ex)
         {

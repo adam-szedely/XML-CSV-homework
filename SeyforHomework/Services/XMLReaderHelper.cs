@@ -6,14 +6,11 @@ namespace SeyforHomework.Services
 {
     public class XMLReaderHelper
     {
-        public XMLReaderHelper()
-        {
-        }
         public string ReadXml(string filePath)
-        {
+        {        
             XDocument xmlData = XDocument.Load(filePath);
 
-            string csv = // https://learn.microsoft.com/en-us/dotnet/standard/linq/generate-text-files-xml
+            string csv = 
                    (from el in xmlData.Element("Localization").Elements("String")
                     select
                         String.Format("{0},{1},{2}" + Environment.NewLine,

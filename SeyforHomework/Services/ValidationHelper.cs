@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
@@ -8,11 +9,7 @@ namespace SeyforHomework.Services
 {
 	public class ValidationHelper
 	{
-		public ValidationHelper()
-		{
-		}
-
-        public bool FileExists(string filePath) //todo - add path exists , string je not null a > 0
+        public bool FileExists(string filePath)
         {
             if (filePath != null && filePath.Length > 0)
             {
@@ -28,9 +25,9 @@ namespace SeyforHomework.Services
             {
                 XmlReaderSettings settings = new XmlReaderSettings();
 
-                settings.ValidationType = ValidationType.Schema; //Používám .xsd
-                settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation; //ToDo schema v xsd
-                settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings; //Vrací varování
+                settings.ValidationType = ValidationType.Schema; 
+                settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation; 
+                settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings; 
                 settings.ValidationEventHandler += new System.Xml.Schema.ValidationEventHandler(this.ValidationEventHandle);
                 xmlReader = XmlReader.Create(filePath, settings);
 
@@ -52,6 +49,7 @@ namespace SeyforHomework.Services
 
         private void ValidationEventHandle(object sender, ValidationEventArgs args)
         {
+            Console.WriteLine("\r\n\tValidation Error " + args.Message);
             throw new Exception("\r\n\tValidation Error " + args.Message);
         }
     }

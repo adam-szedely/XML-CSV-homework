@@ -3,7 +3,7 @@ using Shouldly;
 
 namespace SeyforHomeworkUnitTests;
 
-public class UnitTest : IClassFixture<ValidationHelper>
+public class UnitTest : IClassFixture<ValidationHelper>, IClassFixture<XMLReaderHelper>
 {
     private ValidationHelper validationHelper;
     private XMLReaderHelper xmlReaderHelper;
@@ -38,7 +38,8 @@ public class UnitTest : IClassFixture<ValidationHelper>
     [Fact]
     public void XMLValidationHelper_InvalidXML_ShouldFail()
     {
-
+        var filePath = @"TestData\TestXMLFile.xml";
+        validationHelper.ValidateXML(filePath);
     }
 
     [Fact]
@@ -56,6 +57,8 @@ public class UnitTest : IClassFixture<ValidationHelper>
     [Fact]
     public void XMLReaderHelper_ValidInput_ShouldPass()
     {
-        var testFile = Directory.GetCurrentDirectory();
+        var filePath = @"\TestXMLFile.xml";
+        var resultCsv = xmlReaderHelper.ReadXml(filePath);
+        resultCsv.Substring(0, 6).ShouldBe("str1234");
     }
 }

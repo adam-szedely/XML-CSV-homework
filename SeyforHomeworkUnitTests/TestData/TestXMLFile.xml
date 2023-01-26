@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Localization
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema"
+               xsi:schemaLocation="http://www.w3.org/2001/XMLSchema
+                     XMLSchema.xsd">
+  <String locid="str1234" en="english" cs="czech" />
+  <String locid="str1235" en="word" cs="czechword" />
+  <String locid="str1236" en="food" cs="czechfood" />
+  <String locid="str1237" en="stuff" cs="czechstuff" />
+</Localization>
