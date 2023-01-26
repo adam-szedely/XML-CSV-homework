@@ -3,7 +3,12 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System;
+using System.IO;
+using System.Xml.Serialization;
+using System.Diagnostics;
+using SeyforHomework.Services;
+using Microsoft.VisualBasic;
 
 namespace SeyforHomework.Services
 {
@@ -11,11 +16,16 @@ namespace SeyforHomework.Services
 	{
         public bool FileExists(string filePath)
         {
-            if (filePath != null && filePath.Length > 0)
+            if (filePath != null && filePath.Length > 0 && filePath.Substring(filePath.Length - 3) == "xml")
             {
                 return File.Exists(filePath);
             }
             return false;
+        }     
+
+        public bool CheckPath(string filePath)
+        {
+            return (System.IO.Directory.Exists(filePath));
         }
 
         public void ValidateXML(string filePath)
@@ -29,10 +39,11 @@ namespace SeyforHomework.Services
                 settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation; 
                 settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings; 
                 settings.ValidationEventHandler += new System.Xml.Schema.ValidationEventHandler(this.ValidationEventHandle);
+                //settings.Schemas.Add("http://www.w3.org/2001/XMLSchema", new XmlTextReader(@"XMLSchema.xsd"));
                 xmlReader = XmlReader.Create(filePath, settings);
 
                 while (xmlReader.Read()) { };
-                Console.WriteLine("Validation passed");
+                Console.WriteLine("XML validation passed");
             }
             catch (Exception ex)
             {
@@ -49,7 +60,6 @@ namespace SeyforHomework.Services
 
         private void ValidationEventHandle(object sender, ValidationEventArgs args)
         {
-            Console.WriteLine("\r\n\tValidation Error " + args.Message);
             throw new Exception("\r\n\tValidation Error " + args.Message);
         }
     }

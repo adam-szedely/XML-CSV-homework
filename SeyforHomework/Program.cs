@@ -1,46 +1,57 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Xml.Serialization;
 using System.Xml.Linq;
 using System.Text;
 using System.Xml.Schema;
-using CsvHelper;
-using System;
-using System.Xml;
 using System.Diagnostics;
 using SeyforHomework.Services;
-
-var sourceTestXML = @"/Users/adamszedely/Projects/TestFiles/xmlSample2.xml";
-var outputCSV = @"/Users/adamszedely/Projects/TestFiles/CSVSample.csv";
-
-Stopwatch sw = new Stopwatch();
 
 ValidationHelper validationHelper = new ValidationHelper();
 XMLReaderHelper xmlReaderHelper = new XMLReaderHelper();
 
-try
+var sourceTestXML = @"/Users/adamszedely/Projects/TestFiles/xmlSample2.xml";
+var outputCSV = @"/Users/adamszedely/Projects/TestFiles/CSVSample.csv";
+
+string arg1 = "";
+string arg2 = "";
+
+Console.WriteLine("Provide XML file to convert");
+
+while (!validationHelper.FileExists(arg1))
 {
-    if (validationHelper.FileExists(sourceTestXML))
+    arg1 = Console.ReadLine();
+    if (!validationHelper.FileExists(arg1))
     {
-        try
-        {
-            validationHelper.ValidateXML(sourceTestXML);
-
-            string header = String.Format("{0}, {1}, {2}" + Environment.NewLine,
-            "locid",
-            "en",
-            "cs");
-
-            var xmlData = xmlReaderHelper.ReadXml(sourceTestXML);
-
-            File.WriteAllText(outputCSV, header + xmlData);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("XML asi není valid " + ex.Message);
-        }
+        Console.WriteLine("File path does not exist, or the format is incorrect");
     }
 }
-catch (FileNotFoundException ex)
+
+Console.WriteLine("Where would you like to save the file?");
+
+while (!validationHelper.CheckPath(arg2))
 {
-    Console.WriteLine("Soubor neexistuje " + ex.Message);
+    arg1 = Console.ReadLine();
+    if (!validationHelper.FileExists(arg2))
+    {
+        Console.WriteLine("File path does not exist");
+    }
+}
+
+try
+{
+    validationHelper.ValidateXML(arg1);
+
+    string header = String.Format("{0}, {1}, {2}" + Environment.NewLine,
+    "locid",
+    "en",
+    "cs");
+
+    var xmlData = xmlReaderHelper.ReadXml(arg1);
+
+    File.WriteAllText(outputCSV, header + xmlData);
+}
+catch (Exception ex)
+{
+    Console.WriteLine("There was a problem: " + ex.Message);
 }

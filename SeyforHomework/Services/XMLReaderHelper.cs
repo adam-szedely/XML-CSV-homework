@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Text;
 using System.Xml.Linq;
-
+using System;
+using System.IO;
+using System.Xml.Serialization;
+using System.Xml.Schema;
+using System.Diagnostics;
+using SeyforHomework.Services;
 namespace SeyforHomework.Services
 {
     public class XMLReaderHelper
