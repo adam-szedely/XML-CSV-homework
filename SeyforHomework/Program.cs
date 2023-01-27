@@ -37,12 +37,10 @@ while (!validationHelper.CheckPath(arg2))
     }
 }
 
-try
-{
-    sw.Start();
-    validationHelper.ValidateSchema(arg1);
-    //validationHelper.ValidateXML(arg1);
+sw.Start();
 
+if (validationHelper.ValidateSchema(arg1))
+{
     Console.WriteLine($"XML validated in {sw.ElapsedMilliseconds} milliseconds");
 
     string header = String.Format("{0}, {1}, {2}" + Environment.NewLine,
@@ -54,12 +52,8 @@ try
 
     Console.WriteLine($"XML read in {sw.ElapsedMilliseconds} milliseconds");
 
-    File.WriteAllText(arg2 + "/retezce.csv", header + xmlData);
+    File.WriteAllText(arg2 + "/Solution.csv", header + xmlData);
 
     Console.WriteLine($"Done in {sw.ElapsedMilliseconds} milliseconds");
-}
-catch (Exception ex)
-{
-    Console.WriteLine("There was a problem: " + ex.Message);
 }
 Console.Read();

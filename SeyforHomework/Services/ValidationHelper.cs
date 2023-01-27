@@ -54,38 +54,8 @@ namespace SeyforHomework.Services
             }
             catch (Exception ex)
             {
+                Console.WriteLine("Validation Error: " + ex.Message);
                 return false;
-            }
-        }
-                    
-        public void ValidateXML(string filePath)
-        {
-            XmlReader xmlReader = null;
-            try
-            {
-                XmlReaderSettings settings = new XmlReaderSettings();
-
-                settings.ValidationType = ValidationType.Schema; 
-                settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation; 
-                settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
-                settings.ValidationEventHandler += new System.Xml.Schema.ValidationEventHandler(this.ValidationEventHandle);
-                settings.Schemas.Add("http://www.w3.org/2001/XMLSchema", new XmlTextReader(@"/Users/adamszedely/Projects/SeyforHomework/SeyforHomework/XMLSchema.xsd"));
-
-                xmlReader = XmlReader.Create(filePath, settings);
-
-                while (xmlReader.Read()) { };
-                Console.WriteLine("XML validation passed");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Validation Error " + ex.Message);
-            }
-            finally
-            {
-                if (xmlReader != null)
-                {
-                    xmlReader.Close();
-                }
             }
         }
 
