@@ -26,10 +26,4 @@
   <ItemGroup>
     <ProjectReference Include="..\SeyforHomework\SeyforHomework.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Remove="TestData\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TestData\" />
-  </ItemGroup>
 </Project>

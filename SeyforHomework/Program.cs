@@ -10,8 +10,7 @@ using SeyforHomework.Services;
 ValidationHelper validationHelper = new ValidationHelper();
 XMLReaderHelper xmlReaderHelper = new XMLReaderHelper();
 
-var sourceTestXML = @"/Users/adamszedely/Projects/TestFiles/xmlSample2.xml";
-var outputCSV = @"/Users/adamszedely/Projects/TestFiles/CSVSample.csv";
+Stopwatch sw = new Stopwatch();
 
 string arg1 = "";
 string arg2 = "";
@@ -23,7 +22,7 @@ while (!validationHelper.FileExists(arg1))
     arg1 = Console.ReadLine();
     if (!validationHelper.FileExists(arg1))
     {
-        Console.WriteLine("File path does not exist, or the format is incorrect");
+        Console.WriteLine("File does not exist, or the format is incorrect");
     }
 }
 
@@ -40,7 +39,11 @@ while (!validationHelper.CheckPath(arg2))
 
 try
 {
+    sw.Start();
+    validationHelper.ValidateSchema(arg1);
     //validationHelper.ValidateXML(arg1);
+
+    Console.WriteLine($"XML validated in {sw.ElapsedMilliseconds} milliseconds");
 
     string header = String.Format("{0}, {1}, {2}" + Environment.NewLine,
     "locid",
@@ -49,9 +52,14 @@ try
 
     var xmlData = xmlReaderHelper.ReadXml(arg1);
 
-    File.WriteAllText(arg2 + "xmltocsv.csv", header + xmlData);
+    Console.WriteLine($"XML read in {sw.ElapsedMilliseconds} milliseconds");
+
+    File.WriteAllText(arg2 + "/retezce.csv", header + xmlData);
+
+    Console.WriteLine($"Done in {sw.ElapsedMilliseconds} milliseconds");
 }
 catch (Exception ex)
 {
     Console.WriteLine("There was a problem: " + ex.Message);
 }
+Console.Read();

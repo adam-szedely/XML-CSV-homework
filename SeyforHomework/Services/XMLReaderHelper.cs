@@ -7,6 +7,8 @@ using System.Xml.Serialization;
 using System.Xml.Schema;
 using System.Diagnostics;
 using SeyforHomework.Services;
+using System.Xml;
+
 namespace SeyforHomework.Services
 {
     public class XMLReaderHelper

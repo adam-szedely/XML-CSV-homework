@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using System.Diagnostics;
 using SeyforHomework.Services;
 using Microsoft.VisualBasic;
+using System.Reflection.Metadata;
 
 namespace SeyforHomework.Services
 {
@@ -25,9 +26,38 @@ namespace SeyforHomework.Services
 
         public bool CheckPath(string filePath)
         {
-            return (System.IO.Directory.Exists(filePath));
+            if (filePath != null && filePath.Length > 0)
+            {
+                return (System.IO.Directory.Exists(filePath));
+            }
+            return false;
         }
 
+        public bool ValidateSchema(string filePath)
+        {
+            try
+            {
+                XmlSchemaSet schemas = new XmlSchemaSet();
+
+                schemas.Add("http://www.w3.org/2001/XMLSchema", @"/Users/adamszedely/Projects/SeyforHomework/SeyforHomework/XMLSchema.xsd");
+
+                XDocument doc = XDocument.Load(filePath);
+
+                bool validationErrors = false;
+
+                doc.Validate(schemas, (s, e) =>
+                {
+                    Console.WriteLine(e.Message);
+                    validationErrors = true;
+                });
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+                    
         public void ValidateXML(string filePath)
         {
             XmlReader xmlReader = null;
@@ -37,9 +67,10 @@ namespace SeyforHomework.Services
 
                 settings.ValidationType = ValidationType.Schema; 
                 settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation; 
-                settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings; 
+                settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
                 settings.ValidationEventHandler += new System.Xml.Schema.ValidationEventHandler(this.ValidationEventHandle);
-                //settings.Schemas.Add("http://www.w3.org/2001/XMLSchema", new XmlTextReader(@"XMLSchema.xsd"));
+                settings.Schemas.Add("http://www.w3.org/2001/XMLSchema", new XmlTextReader(@"/Users/adamszedely/Projects/SeyforHomework/SeyforHomework/XMLSchema.xsd"));
+
                 xmlReader = XmlReader.Create(filePath, settings);
 
                 while (xmlReader.Read()) { };
@@ -47,7 +78,7 @@ namespace SeyforHomework.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine("\r\n\tValidation Error " + ex.Message);
+                Console.WriteLine("Validation Error " + ex.Message);
             }
             finally
             {
@@ -60,7 +91,7 @@ namespace SeyforHomework.Services
 
         private void ValidationEventHandle(object sender, ValidationEventArgs args)
         {
-            throw new Exception("\r\n\tValidation Error " + args.Message);
+            throw new Exception("Validation Error " + args.Message);
         }
     }
 }
