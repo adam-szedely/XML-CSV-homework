@@ -45,7 +45,7 @@ namespace SeyforHomework.Services
 
                 bool validationErrors = false;
 
-                doc.Validate(schemas, (s, e) =>
+                doc.Validate(schemas, (s, e) =>  
                 {
                     Console.WriteLine(e.Message);
                     validationErrors = true;
@@ -57,11 +57,6 @@ namespace SeyforHomework.Services
                 Console.WriteLine("Validation Error: " + ex.Message);
                 return false;
             }
-        }
-
-        private void ValidationEventHandle(object sender, ValidationEventArgs args)
-        {
-            throw new Exception("Validation Error " + args.Message);
         }
     }
 }
