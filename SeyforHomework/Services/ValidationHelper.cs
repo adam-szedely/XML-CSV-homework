@@ -50,7 +50,7 @@ namespace SeyforHomework.Services
                     Console.WriteLine(e.Message);
                     validationErrors = true;
                 });
-                return true;
+                return !validationErrors;
             }
             catch (Exception ex)
             {
